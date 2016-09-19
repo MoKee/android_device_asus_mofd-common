@@ -46,7 +46,7 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/asus/mofd-common/bluetooth
 
 # Bootloader
-TARGET_OTA_ASSERT_DEVICE := Z00A,Z008
+TARGET_OTA_ASSERT_DEVICE := Z00A,Z008,z00a,z008
 # bootstub as 2nd bootloader
 TARGET_BOOTLOADER_IS_2ND := true
 
@@ -70,7 +70,7 @@ ifeq ($(HOST_OS),linux)
 endif
 
 # Hardware
-BOARD_HARDWARE_CLASS := device/asus/mofd-common/cmhw
+BOARD_HARDWARE_CLASS := device/asus/mofd-common/mkhw
 
 # Healthd
 BOARD_HAL_STATIC_LIBRARIES := libhealthd.moorefield
@@ -121,7 +121,7 @@ TARGET_INIT_UMOUNT_AND_FSCK_IS_UNSAFE := true
 TARGET_KERNEL_SOURCE := kernel/asus/moorefield
 TARGET_KERNEL_ARCH := x86_64
 BOARD_KERNEL_IMAGE_NAME := bzImage
-TARGET_KERNEL_CONFIG := cyanogenmod_zenfone2_defconfig
+TARGET_KERNEL_CONFIG := mokee_zenfone2_defconfig
 
 # Kernel cmdline
 BOARD_KERNEL_CMDLINE := init=/init pci=noearly loglevel=0 vmalloc=256M androidboot.hardware=mofd_v1 watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx androidboot.serialno=01234567890123456789 snd_pcm.maximum_substreams=8 ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on debug_locks=0 n_gsm.mux_base_conf=\"ttyACM0,0 ttyXMM0,1\"

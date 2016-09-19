@@ -46,7 +46,7 @@ import android.view.KeyEvent;
 import com.android.internal.os.DeviceKeyHandler;
 import com.android.internal.util.ArrayUtils;
 
-import cyanogenmod.providers.CMSettings;
+import mokee.providers.MKSettings;
 
 public class KeyHandler implements DeviceKeyHandler {
 
@@ -97,9 +97,9 @@ public class KeyHandler implements DeviceKeyHandler {
 
         final Resources resources = mContext.getResources();
         mProximityTimeOut = resources.getInteger(
-                org.cyanogenmod.platform.internal.R.integer.config_proximityCheckTimeout);
+                org.mokee.platform.internal.R.integer.config_proximityCheckTimeout);
         mProximityWakeSupported = resources.getBoolean(
-                org.cyanogenmod.platform.internal.R.bool.config_proximityCheckOnWake);
+                org.mokee.platform.internal.R.bool.config_proximityCheckOnWake);
 
         if (mProximityWakeSupported) {
             mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -158,7 +158,7 @@ public class KeyHandler implements DeviceKeyHandler {
             switch (msg.arg1) {
             case KEY_GESTURE_C:
                 mGestureWakeLock.acquire(GESTURE_WAKELOCK_DURATION);
-                Intent c_intent = new Intent(cyanogenmod.content.Intent.ACTION_SCREEN_CAMERA_GESTURE);
+                Intent c_intent = new Intent(mokee.content.Intent.ACTION_SCREEN_CAMERA_GESTURE);
                 mContext.sendBroadcast(c_intent, Manifest.permission.STATUS_BAR_SERVICE);
                 doHapticFeedback();
                 break;
@@ -229,9 +229,9 @@ public class KeyHandler implements DeviceKeyHandler {
         if (!mEventHandler.hasMessages(GESTURE_REQUEST)) {
             Message msg = getMessageForKeyEvent(event.getScanCode());
             boolean defaultProximity = mContext.getResources().getBoolean(
-                org.cyanogenmod.platform.internal.R.bool.config_proximityCheckOnWakeEnabledByDefault);
-            boolean proximityWakeCheckEnabled = CMSettings.System.getInt(mContext.getContentResolver(),
-                    CMSettings.System.PROXIMITY_ON_WAKE, defaultProximity ? 1 : 0) == 1;
+                org.mokee.platform.internal.R.bool.config_proximityCheckOnWakeEnabledByDefault);
+            boolean proximityWakeCheckEnabled = MKSettings.System.getInt(mContext.getContentResolver(),
+                    MKSettings.System.PROXIMITY_ON_WAKE, defaultProximity ? 1 : 0) == 1;
             if (mProximityWakeSupported && proximityWakeCheckEnabled && mProximitySensor != null) {
                 mEventHandler.sendMessageDelayed(msg, mProximityTimeOut);
                 processEvent(event.getScanCode());
@@ -294,8 +294,8 @@ public class KeyHandler implements DeviceKeyHandler {
         }
 
         if (audioManager.getRingerMode() != AudioManager.RINGER_MODE_SILENT) {
-            boolean enabled = CMSettings.System.getInt(mContext.getContentResolver(),
-                    CMSettings.System.TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK, 1) != 0;
+            boolean enabled = MKSettings.System.getInt(mContext.getContentResolver(),
+                    MKSettings.System.TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK, 1) != 0;
             if (enabled) {
                 mVibrator.vibrate(50);
             }

@@ -1,5 +1,9 @@
 [
   {
+    "repository": "android_vendor_asus_mofd-common",
+    "target_path": "vendor/asus/mofd-common"
+  },
+  {
     "repository": "android_kernel_asus_moorefield",
     "target_path": "kernel/asus/moorefield"
   },

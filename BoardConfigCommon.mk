@@ -120,12 +120,14 @@ TARGET_REQUIRES_SYNCHRONOUS_SETSURFACE := true
 TARGET_INIT_VENDOR_LIB := libinit_mofd
 TARGET_LIBINIT_DEFINES_FILE := device/asus/mofd-common/init/init_mofd.cpp
 TARGET_INIT_UMOUNT_AND_FSCK_IS_UNSAFE := true
+TARGET_IGNORE_RO_BOOT_SERIALNO := true
 
 # Inline kernel building
 TARGET_KERNEL_SOURCE := kernel/asus/moorefield
 TARGET_KERNEL_ARCH := x86_64
 BOARD_KERNEL_IMAGE_NAME := bzImage
 TARGET_KERNEL_CONFIG := zenfone2_defconfig
+LZMA_RAMDISK_TARGETS := recovery
 
 # Kernel cmdline
 BOARD_KERNEL_CMDLINE := init=/init pci=noearly console=logk0 loglevel=0 vmalloc=256M androidboot.hardware=mofd_v1 watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx androidboot.serialno=01234567890123456789 gpt snd_pcm.maximum_substreams=8 ptrace.ptrace_can_access=1 panic=15 ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on debug_locks=0 n_gsm.mux_base_conf=\"ttyACM0,0 ttyXMM0,1\" bootboost=1'
@@ -176,11 +178,26 @@ TARGET_POWERHAL_VARIANT := mofd_v1
 BOARD_PROVIDES_LIBRIL := true
 
 # Recovery
+#RECOVERY_VARIANT := twrp
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 BOARD_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
 TARGET_RECOVERY_FSTAB := device/asus/mofd-common/rootdir/etc/fstab.mofd_v1
 TARGET_RECOVERY_DEVICE_MODULES := libinit_mofd librecovery_updater_mofd thermald
-TARGET_RECOVERY_DENSITY := hdpi
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+BOARD_HAS_LARGE_FILESYSTEM := true
+
+ifeq ($(RECOVERY_VARIANT),twrp)
+TARGET_RECOVERY_FSTAB := device/asus/mofd-common/recovery/twrp.fstab
+BOARD_HAS_NO_REAL_SDCARD := true
+TW_THEME := portrait_hdpi
+RECOVERY_SDCARD_ON_DATA := true
+TW_DEFAULT_BRIGHTNESS := "160"
+TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_NTFS_3G := true
+TW_EXCLUDE_SUPERSU := true
+else
+TARGET_RECOVERY_FSTAB := device/asus/mofd-common/rootdir/etc/fstab.mofd_v1
+endif
 
 # Release tools
 TARGET_RELEASETOOLS_EXTENSIONS := device/asus/mofd-common/releasetools
